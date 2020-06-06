@@ -113,20 +113,21 @@ Las enfermedades infecciosas son aquellas cuyo nombre termina de alguna de estas
 sufijosInfecciosas = [ "sis", "itis", "emia", "cocos"]
 -}
 
+type Medicamento = [Hierba]
 administrarMedicamento :: [Hierba] -> Raton -> Raton
 administrarMedicamento listaHierbas raton = foldl aplicarHierba raton listaHierbas
 
 aplicarHierba :: Raton -> Hierba -> Raton
 aplicarHierba  raton hierba = hierba raton 
 
-pondsAntiAge :: [Hierba]
+pondsAntiAge :: Medicamento
 pondsAntiAge = [hierbaBuena, hierbaBuena, hierbaBuena, alcachofa]
 
 
-reduceFatFast ::  String-> Int -> [Hierba]
+reduceFatFast ::  String-> Int -> Medicamento
 reduceFatFast sufijo potencia = [hierbaVerde sufijo] ++ crearReduceFatFast potencia
 
-crearReduceFatFast :: Int -> [Hierba]
+crearReduceFatFast :: Int -> Medicamento
 crearReduceFatFast 0 = [ ]
 crearReduceFatFast potencia = [alcachofa] ++ crearReduceFatFast (potencia -1)
 
@@ -140,9 +141,6 @@ Hacer la función que encuentra la cantidadIdeal. Recibe una condición y dice c
 la cumple.
 > cantidadIdeal even           > cantidadIdeal (>5)
 2                              6
-Saber si un medicamento lograEstabilizar una comunidad de ratones. Esto sucede cuando, luego de aplicarle el 
-medicamento a todos los ratones de la comunidad, se elimina el sobrepeso y todos tienen menos de 3 enfermedades.
- Un ratón tiene sobrepeso si pesa más de 1kg.
 Diseñar el siguiente experimento: dado una comunidad de ratones, encontrar la potencia ideal del reduceFatFast 
 necesaria para estabilizar la comunidad.
 Queremos saber si un medicamento logra estabilizar una comunidad infinita. ¿Podemos saberlo? Responder en estos 
@@ -150,7 +148,6 @@ dos casos:
 Si todos los ratones quedan con menos de 1kg y sin enfermedades. Justificar.
 Si un ratón queda con 2kg y 4 enfermedades. Justificar.
 -}
-
 
 cantidadIdeal ::  (Int -> Bool) -> [Int]-> Int
 cantidadIdeal condicion numeros = head (filter condicion numeros)
@@ -160,6 +157,22 @@ listaNumeros num = num : (listaNumeros (num + 1))
 
 numeros :: [Int]
 numeros = listaNumeros 0
+
+{-Saber si un medicamento lograEstabilizar una comunidad de ratones. Esto sucede cuando, luego de aplicarle el 
+medicamento a todos los ratones de la comunidad, se elimina el sobrepeso y todos tienen menos de 3 enfermedades.
+ Un ratón tiene sobrepeso si pesa más de 1kg.-}
+
+lograEstabilizar :: Medicamento-> [Raton] -> Bool
+lograEstabilizar medicamento comunidad = todosCumplen sinSobrepeso medicamento comunidad && todosCumplen menosDeTresEnfermedades medicamento comunidad
+
+todosCumplen ::  (Raton-> Bool) -> Medicamento -> [Raton]-> Bool 
+todosCumplen condicion medicamento comunidad = all condicion  (map (administrarMedicamento medicamento) comunidad)
+
+sinSobrepeso :: Raton -> Bool
+sinSobrepeso  = ( < 1).peso 
+
+menosDeTresEnfermedades :: Raton-> Bool
+menosDeTresEnfermedades = (<3).length.enfermedades
 
 
 

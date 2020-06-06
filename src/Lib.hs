@@ -85,10 +85,10 @@ hierbaZort :: Hierba
 hierbaZort = cambiarEnfermedades quitarEnfermedades . cambiarEdad quitarEdad
 
 quitarEdad :: Float -> Float
-quitarEdad laEdad = 0
+quitarEdad _ = 0
 
 quitarEnfermedades ::  [String]-> [String]
-quitarEnfermedades listaEnfermedades = [ ]
+quitarEnfermedades _ = [ ]
 --hierbaDelDiablo, hace que el ratón pierda 0.1kg (sin disminuir de 0) y elimina todas las enfermedades con menos de 10 letras.
 
 hierbaDelDiablo :: Hierba
@@ -98,7 +98,7 @@ menoresAdiez :: [String] -> [String]
 menoresAdiez  listaEnfermedades = filter (( <10).length) listaEnfermedades
 
 
------Punto 4
+-----Punto 3
 {-Medicamentos: Los medicamentos son la administración sucesiva de un conjunto de hierbas. Se pide crear los siguientes 
 medicamentos para luego poder administrarlos en un ratón: 
 Hacer el pondsAntiAge, que es un medicamento que está hecho con 3 hierbas buenas y una alcachofa. iterate
@@ -123,14 +123,43 @@ pondsAntiAge :: [Hierba]
 pondsAntiAge = [hierbaBuena, hierbaBuena, hierbaBuena, alcachofa]
 
 
-reduceFatFast ::  Int -> [Hierba]
-reduceFatFast potencia = [hierbaVerde string] ++ crearReduceFatFast potencia
+reduceFatFast ::  String-> Int -> [Hierba]
+reduceFatFast sufijo potencia = [hierbaVerde sufijo] ++ crearReduceFatFast potencia
 
 crearReduceFatFast :: Int -> [Hierba]
 crearReduceFatFast 0 = [ ]
 crearReduceFatFast potencia = [alcachofa] ++ crearReduceFatFast (potencia -1)
 
-    
+-------Falta hacer pdepCilina
+
+
+--------Punto 4
+{-Experimento: Los laboratorios antes de publicar un medicamento, lo prueban con distintos ratones para evaluar los 
+resultados:
+Hacer la función que encuentra la cantidadIdeal. Recibe una condición y dice cuál es el primer número natural que 
+la cumple.
+> cantidadIdeal even           > cantidadIdeal (>5)
+2                              6
+Saber si un medicamento lograEstabilizar una comunidad de ratones. Esto sucede cuando, luego de aplicarle el 
+medicamento a todos los ratones de la comunidad, se elimina el sobrepeso y todos tienen menos de 3 enfermedades.
+ Un ratón tiene sobrepeso si pesa más de 1kg.
+Diseñar el siguiente experimento: dado una comunidad de ratones, encontrar la potencia ideal del reduceFatFast 
+necesaria para estabilizar la comunidad.
+Queremos saber si un medicamento logra estabilizar una comunidad infinita. ¿Podemos saberlo? Responder en estos 
+dos casos:
+Si todos los ratones quedan con menos de 1kg y sin enfermedades. Justificar.
+Si un ratón queda con 2kg y 4 enfermedades. Justificar.
+-}
+
+
+cantidadIdeal ::  (Int -> Bool) -> [Int]-> Int
+cantidadIdeal condicion numeros = head (filter condicion numeros)
+
+listaNumeros :: Int -> [Int]
+listaNumeros num = num : (listaNumeros (num + 1))
+
+numeros :: [Int]
+numeros = listaNumeros 0
 
 
 

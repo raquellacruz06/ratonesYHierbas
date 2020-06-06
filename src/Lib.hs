@@ -43,14 +43,20 @@ cambiarEdad funcion raton = raton {edad = (funcion.edad) raton }
 --Por ejemplo, si a cerebro le doy la hierbaVerde del tipo “sis”, queda sólo con sarampión.
 
 ---sacar este comentairio
-hierbaVerde :: Raton -> Raton 
-hierbaVerde = cambiarEnfermedades quitarEnfermedad "sis"
+hierbaVerde :: String -> Hierba 
+hierbaVerde sufijo = cambiarEnfermedades (quitarEnfermedad sufijo) 
 
 cambiarEnfermedades :: ([String]-> [String]) -> Hierba
 cambiarEnfermedades funcion raton = raton {enfermedades = (funcion.enfermedades) raton}
 
 quitarEnfermedad ::  String-> [String] ->[String]
-quitarEnfermedad  palabra listaEnfermedades   = 
+quitarEnfermedad  sufijo listaEnfermedades   = filter (not.(coincide sufijo)) listaEnfermedades
+
+coincide :: String -> String-> Bool
+coincide sufijo laEnfermedad= reverse (obtenerSufijo laEnfermedad sufijo) == sufijo
+
+obtenerSufijo :: String -> String -> String
+obtenerSufijo laEnfermedad sufijo = take (length sufijo) (reverse laEnfermedad)
 
 
 
@@ -118,7 +124,7 @@ pondsAntiAge = [hierbaBuena, hierbaBuena, hierbaBuena, alcachofa]
 
 
 reduceFatFast ::  Int -> [Hierba]
-reduceFatFast potencia = [hierbaVerde ("string")] ++ crearReduceFatFast potencia
+reduceFatFast potencia = [hierbaVerde string] ++ crearReduceFatFast potencia
 
 crearReduceFatFast :: Int -> [Hierba]
 crearReduceFatFast 0 = [ ]

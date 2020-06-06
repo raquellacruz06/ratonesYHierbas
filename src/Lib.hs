@@ -127,8 +127,9 @@ pondsAntiAge :: Medicamento
 pondsAntiAge = [hierbaBuena, hierbaBuena, hierbaBuena, alcachofa]
 
 
-reduceFatFast ::  String-> Int -> Medicamento
-reduceFatFast "obesidad" potencia = [hierbaVerde "obesidad"] ++ crearReduceFatFast potencia
+reduceFatFast ::   Int -> Medicamento
+reduceFatFast potencia = [hierbaVerde "obesidad"] ++ crearReduceFatFast potencia
+
 
 crearReduceFatFast :: Int -> Medicamento
 crearReduceFatFast 0 = [ ]
@@ -177,7 +178,14 @@ menosDeTresEnfermedades = (<3).length.enfermedades
 {-Diseñar el siguiente experimento: dado una comunidad de ratones, encontrar la potencia ideal del reduceFatFast 
 necesaria para estabilizar la comunidad.-}
 
---encontrarPotencia :: [Raton] -> Int
+{-encontrarPotencia :: [Raton] -> Medicamento -> Int
+encontrarPotencia comunidad reduceFatFast = calcularPotencia comunidad reduceFatFast potencia
+
+calcularPotencia :: [Raton] -> Medicamento -> Int
+calcularPotencia comunidad potencia | lograEstabilizar (reduceFatFast potencia) comunidad = potencia
+                                    | otherwise = calcularPotencia comunidad (potencia+1)-}
+
+
 
 
 {-Queremos saber si un medicamento logra estabilizar una comunidad infinita. ¿Podemos saberlo? Responder en estos 

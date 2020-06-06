@@ -110,8 +110,11 @@ quede con sinusitis. Si en lugar de la 1 le administramos un reduceFatFast de po
 queda también solo con sinusitis.
 Hacer la pdepCilina, que es un medicamento que usa hierbasVerdes para curar todas las enfermedades infecciosas. 
 Las enfermedades infecciosas son aquellas cuyo nombre termina de alguna de estas formas (utilizar esta constante):
-sufijosInfecciosas = [ "sis", "itis", "emia", "cocos"]
+
 -}
+
+sufijosInfecciosas :: [String]
+sufijosInfecciosas = [ "sis", "itis", "emia", "cocos"]
 
 type Medicamento = [Hierba]
 administrarMedicamento :: [Hierba] -> Raton -> Raton
@@ -125,13 +128,16 @@ pondsAntiAge = [hierbaBuena, hierbaBuena, hierbaBuena, alcachofa]
 
 
 reduceFatFast ::  String-> Int -> Medicamento
-reduceFatFast sufijo potencia = [hierbaVerde sufijo] ++ crearReduceFatFast potencia
+reduceFatFast "obesidad" potencia = [hierbaVerde "obesidad"] ++ crearReduceFatFast potencia
 
 crearReduceFatFast :: Int -> Medicamento
 crearReduceFatFast 0 = [ ]
 crearReduceFatFast potencia = [alcachofa] ++ crearReduceFatFast (potencia -1)
 
 -------Falta hacer pdepCilina
+
+pdepCilina :: Medicamento
+pdepCilina = map hierbaVerde sufijosInfecciosas
 
 
 --------Punto 4
@@ -141,12 +147,6 @@ Hacer la función que encuentra la cantidadIdeal. Recibe una condición y dice c
 la cumple.
 > cantidadIdeal even           > cantidadIdeal (>5)
 2                              6
-Diseñar el siguiente experimento: dado una comunidad de ratones, encontrar la potencia ideal del reduceFatFast 
-necesaria para estabilizar la comunidad.
-Queremos saber si un medicamento logra estabilizar una comunidad infinita. ¿Podemos saberlo? Responder en estos 
-dos casos:
-Si todos los ratones quedan con menos de 1kg y sin enfermedades. Justificar.
-Si un ratón queda con 2kg y 4 enfermedades. Justificar.
 -}
 
 cantidadIdeal ::  (Int -> Bool) -> [Int]-> Int
@@ -173,6 +173,24 @@ sinSobrepeso  = ( < 1).peso
 
 menosDeTresEnfermedades :: Raton-> Bool
 menosDeTresEnfermedades = (<3).length.enfermedades
+
+{-Diseñar el siguiente experimento: dado una comunidad de ratones, encontrar la potencia ideal del reduceFatFast 
+necesaria para estabilizar la comunidad.-}
+
+--encontrarPotencia :: [Raton] -> Int
+
+
+{-Queremos saber si un medicamento logra estabilizar una comunidad infinita. ¿Podemos saberlo? Responder en estos 
+dos casos:
+Si todos los ratones quedan con menos de 1kg y sin enfermedades. Justificar.
+No lo podemos saber porque necesita la información de todos antes de arrojar un resultado (eager evaluation), por lo tanto, al ser
+una lista infinita nunca obtendrá tal resultado
+
+Si un ratón queda con 2kg y 4 enfermedades. Justificar.
+Si algún ratón llega a cumplir tal condición es posible obtenerlo utilizando funciones como 
+head (filter condicionDada listaInfinita) ya que gracias a Lazy evaluation a head no le importa qué pasa con el resto de la lista,
+cuando consiga el primero que cumpla la condición lo arroja 
+-}
 
 
 

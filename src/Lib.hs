@@ -178,13 +178,12 @@ menosDeTresEnfermedades = (<3).length.enfermedades
 {-Diseñar el siguiente experimento: dado una comunidad de ratones, encontrar la potencia ideal del reduceFatFast 
 necesaria para estabilizar la comunidad.-}
 
-{-encontrarPotencia :: [Raton] -> Medicamento -> Int
-encontrarPotencia comunidad reduceFatFast = calcularPotencia comunidad reduceFatFast potencia
+encontrarPotencia :: [Raton] -> Int
+encontrarPotencia comunidad  = calcularPotencia comunidad 0
 
-calcularPotencia :: [Raton] -> Medicamento -> Int
+calcularPotencia :: [Raton] ->  Int -> Int
 calcularPotencia comunidad potencia | lograEstabilizar (reduceFatFast potencia) comunidad = potencia
-                                    | otherwise = calcularPotencia comunidad (potencia+1)-}
-
+                                    | otherwise = calcularPotencia comunidad (potencia+1)
 
 
 
